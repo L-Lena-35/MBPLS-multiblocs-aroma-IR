@@ -100,7 +100,9 @@ nbdim=10
 dim(X1)
 dim(X2)
 dim(Y)
-pk=c(ncol(X1),ncol(X2)
+
+pk=c(ncol(X1),ncol(X2))
+
 Xk.names = Xk.names = c("Aroma", "IR")
 
 # ------------------------------------------------------------------------------------------------
@@ -116,16 +118,10 @@ Y1=model.matrix(~Y$origine-1)
 # ------------------------------------------------------------------------------------------------
 
 if (method=="MBPLS") {
-  ? MBPLS  # package MBAnalysis
+  #? MBPLS  # package MBAnalysis
   res=MBPLS(X=X, Y=Y1,block=pk,name.block=Xk.names,
             ncomp=nbdim,scale=choix.scaling[1],scale.block=choix.scaling[3],
             scale.Y=choix.scaling[2])
-}
-if (method=="MBWCov") {
-  ? MBWCov  # package MBAnalysis
-  res=MBWCov(X=X, Y=Y1,block=pk,name.block=Xk.names,
-             ncomp=nbdim,scale=choix.scaling[1],scale.block=choix.scaling[3],
-             scale.Y=choix.scaling[2])
 }
 
 # ------------------------------------------------------------------------------------------------
@@ -207,7 +203,7 @@ MBValidation(res,method="OOB",nboot=100,ncomp.max=10)
 res.CV <- matrix(NA_character_,nrow=nrow(X),ncol = 10)
 
 # ------------------------------------------------------------------------------------------------
-# Matrice de prédiction LOO
+# Matrice de prédiction LOO: chargement lourd
 # ------------------------------------------------------------------------------------------------
 
 for ( i in 1:nrow(X)  ) { 
@@ -241,4 +237,7 @@ err/38
 
 
 
+dir.create("Graphiques")
+
+ggsave("Graphiques/scores.png", p, width=7, height=5)
 
